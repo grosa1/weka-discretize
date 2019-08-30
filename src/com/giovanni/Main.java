@@ -1,15 +1,14 @@
 package com.giovanni;
 
 
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVSaver;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Discretize;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +30,7 @@ public class Main {
 
                 Discretize discFilter = new Discretize();
                 discFilter.setInputFormat(train);
-                discFilter.setOptions(new String[] {
+                discFilter.setOptions(new String[]{
                         "-M", "-1.0",
                         "-B", "3", // num. of bins
                         "-Y",
@@ -41,7 +40,7 @@ public class Main {
 
                 Instances discTrain = Filter.useFilter(train, discFilter);
 
-                File outFile = Paths.get(Main.OUT_FOLDER,"d_" + file.getFileName()).toFile();
+                File outFile = Paths.get(Main.OUT_FOLDER, "d_" + file.getFileName()).toFile();
                 writeCsv(outFile, discTrain);
 
                 System.out.println("done");
@@ -49,7 +48,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private static List<Path> getFilesFromFolder(Path parentFolder) throws IOException {
